@@ -6,12 +6,15 @@ import NewCustomers from "./analysis/NewCustomers";
 import Subscribers from "./analysis/Subscribers";
 import Overview from "./overview/Overview";
 import Devices from "./overview/Devices";
+import Discussion from "./overview/Discussion";
+import NewDraft from "./overview/NewDraft";
+import Referrals from "./overview/Referrals";
 
 const BlogDashboard = () => {
   return (
     <>
       <div className="row">
-        <div className="blogDashboard col-12">
+        <div className="blogDashboard pb-4 col-12">
           <span>DASHBOARD</span>
           <h3>Blog Overview</h3>
         </div>
@@ -37,6 +40,9 @@ const BlogDashboard = () => {
       <div className="row overview_row">
         <Overview />
         <Devices />
+        <NewDraft />
+        <Discussion />
+        <Referrals />
       </div>
     </>
   );

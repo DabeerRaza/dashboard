@@ -46,7 +46,7 @@ class Overview extends Component{
 
   render(){
     return (
-      <div className="col-8">
+      <div className="col-lg-8 col-md-12 overview">
         <div className="row">
           <div className="col-lg-12 white-box">
             <div className="overviewTitle">

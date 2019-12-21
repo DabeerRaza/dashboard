@@ -29,7 +29,7 @@ class Devices extends Component{
 
   render(){
     return (    
-      <div className="col-4 pl-4">
+      <div className="col-lg-4 col-md-6 customPadding">
         <div className="row">
           <div className="col-lg-12 white-box">  
             <div className="deviceTitle">
