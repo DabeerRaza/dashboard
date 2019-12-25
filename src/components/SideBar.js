@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import {leftSlide} from '../redux/action-creator/leftSlide'
+import { connect } from 'react-redux'
+import { slideLeftRight } from '../redux/action-creator/sideBarAction'
 
-const SideBar = () => {
+const SideBar = ({ sideBarStatus, slideLeftRight }) => {
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 0)
-  const slideLeft = useSelector(state => state.leftSlideReducer.slideLeft)
-  const slideRight = useSelector(state => state.leftSlideReducer.slideRight)
-
-  const dispatch = useDispatch()
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 0 || window.innerWidth < 767)
+  
   useEffect(() => {
     window.addEventListener('resize', () => {
         setIsMobile(window.innerWidth < 767)
@@ -22,29 +18,27 @@ const SideBar = () => {
     }
   }, [])
 
-  const addClass = () => {
-    dispatch(leftSlide())
+  const sideBarHandler = () => {
+    slideLeftRight()
+  }
+
+  const navItemHandler = e => {
+    e.target.className = "active"
+      slideLeftRight()
   }
 
   
-  const navItemHandler = e => {
-    e.target.className = "active"
-    if(isMobile){
-      return dispatch(leftSlide())
-    }
-  }
-
-  const className = isMobile ? slideLeft : ""
-  const toggle = slideRight ? "slideRight" : ""
+  const sideBarClass = sideBarStatus ? "slideRight" : "slideLeft"
+  const sideBarMobile = isMobile ? sideBarClass : ""
 
   return (
     <div className="row">
-      <div className={`${className} ${toggle} sideBar col-lg-2 col-md-3`}>
+      <div className={`${sideBarMobile} sideBar col-lg-2 col-md-3`}>
         <div className="row sideBar-top-row">
           <div className="sideBar-top-row_inner col-md-12 col-10">
             <img className="sideBar-top-img" src={require("../assets/images/favicon.png")} alt="logo"/>            
           </div>
-          <div className="col-2 d-xs-block d-sm-block d-md-none arrow" onClick={addClass}>
+          <div className="col-2 d-xs-block d-sm-block d-md-none arrow" onClick={sideBarHandler}>
           <i className="fa fa-long-arrow-left" aria-hidden="true"></i>
           </div>
         </div>
@@ -52,7 +46,7 @@ const SideBar = () => {
           <li className="nav-item">
             <NavLink
               exact 
-              to="/sale-purchase-dashboard"
+              to="/auth-users/blog-dashboard"
               className=""
               onClick={e => navItemHandler(e)}
               onBlur={e => e.target.className = ""}
@@ -64,7 +58,7 @@ const SideBar = () => {
           <li className="nav-item">
             <NavLink
               exact 
-              to="/sale-purchase-dashboard/blog-posts"
+              to="/auth-users/blog-posts"
               className=""
               onClick={e => navItemHandler(e)}
               onBlur={e => e.target.className = ""}
@@ -76,7 +70,7 @@ const SideBar = () => {
           <li className="nav-item">
             <NavLink
               exact 
-              to="/sale-purchase-dashboard/add-new-post"
+              to="/auth-users/add-new-post"
               className=""
               onClick={e => navItemHandler(e)}
               onBlur={e => e.target.className = ""}
@@ -88,7 +82,7 @@ const SideBar = () => {
           <li className="nav-item">
             <NavLink
               exact 
-              to="/sale-purchase-dashboard/forms-and-components"
+              to="/auth-users/forms-and-components"
               className=""
               onClick={e => navItemHandler(e)}
               onBlur={e => e.target.className = ""}
@@ -100,7 +94,7 @@ const SideBar = () => {
           <li className="nav-item">
             <NavLink
               exact 
-              to="/sale-purchase-dashboard/tables"
+              to="/auth-users/tables"
               className=""
               onClick={e => navItemHandler(e)}
               onBlur={e => e.target.className = ""}
@@ -112,7 +106,7 @@ const SideBar = () => {
           <li className="nav-item">
             <NavLink
               exact 
-              to="/sale-purchase-dashboard/user-profile"
+              to="/auth-users/user-profile"
               className=""
               onClick={e => navItemHandler(e)}
               onBlur={e => e.target.className = ""}
@@ -124,7 +118,7 @@ const SideBar = () => {
           <li className="nav-item">
             <NavLink
               exact 
-              to="/sale-purchase-dashboard/errors"
+              to="/auth-users/errors"
               className=""
               onClick={e => navItemHandler(e)}
               onBlur={e => e.target.className = ""}
@@ -139,4 +133,16 @@ const SideBar = () => {
   )
 }
 
-export default SideBar
+const mapStateToProps = state => {
+  return {
+    sideBarStatus: state.sideBar.sideBarStatus
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    slideLeftRight: () => dispatch(slideLeftRight())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar)

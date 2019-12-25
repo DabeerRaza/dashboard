@@ -1,29 +1,32 @@
 import React, {useEffect, useState} from 'react'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { rightSlide } from '../redux/action-creator/rightSlide'
+import { slideLeftRight } from '../redux/action-creator/sideBarAction'
 import { checkGreeting } from '../redux/action-creator/greetingAction'
 
-const NavBar = ({ greetingData, greeting }) => {
+const NavBar = ({ greetingData, greeting, slideLeftRight, token, loggedIn}) => {
 
   const [check, setCheck] = useState(false)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     greeting()
+
     return () => {
-      greeting()
+      
     }
   }, [greeting])
 
-  const rightSlideHandler = () => {
-    dispatch(rightSlide())
-  }
-
   const onSlide = () => {
     setCheck(!check)
-    console.log(check)
+  }
+
+  const sideBarClickHandler = () => {
+    slideLeftRight()
+  }
+
+  const logoutHandler = () => {
+    token = localStorage.clear("token")
+    loggedIn = true
   }
 
   const slideClass = check ? "slideUp" : "slideDown"
@@ -45,11 +48,11 @@ const NavBar = ({ greetingData, greeting }) => {
                 <ul className={`${slideClass} sliding`}>
                    <li><Link to="/#">Profile</Link></li>
                    <li><Link to="/#">Others</Link></li>
-                   <li><Link to="/#">Logout</Link></li>
+                   <li><button onClick={logoutHandler}>Logout</button></li>
                 </ul>
               </div>
             </div>
-            <div onClick={rightSlideHandler} className="hamburger col-sm-9 col-7 d-xs-block d-sm-block d-md-none">
+            <div onClick={sideBarClickHandler} className="hamburger col-sm-9 col-7 d-xs-block d-sm-block d-md-none">
               <div>
                 <span></span>
                 <span></span>
@@ -71,7 +74,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    greeting: () => dispatch(checkGreeting())
+    greeting: () => dispatch(checkGreeting()),
+    slideLeftRight: () => dispatch(slideLeftRight())
   }
 }
 

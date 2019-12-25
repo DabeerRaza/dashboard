@@ -71,7 +71,7 @@ const Discussion = ({ commentData, fetchComments }) => {
 
 const mapStateToProps = state => {
   return {
-    commentData: state.comments
+    commentData: state.comment
   };
 };
 

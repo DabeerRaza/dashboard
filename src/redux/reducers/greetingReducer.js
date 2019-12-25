@@ -13,7 +13,7 @@ const greetingReducers = (state = initialState, action) => {
   
     default:
       return {
-        ...state
+        state
       }
   }
 }

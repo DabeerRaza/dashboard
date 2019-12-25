@@ -1,53 +1,17 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import { connect } from 'react-redux'
+import { subscribers } from '../../../redux/action-creator/blogDashboard/analysis/subscribersAction'
 
-class Subscribers extends Component {
-  constructor(props) {
-    super(props);
+const Subscribers = ({ chartData, options }) => {
 
-    this.state = {
-      chartData: {
-        labels: [1, 7, 14, 21, 28],
-        datasets: [
-          {
-            label: "Current Month",
-            data: [10, 20, 80, 20, 30, 40, 20, 29, 20, 40, 20, 29, 20],
-            backgroundColor: "rgba(57,153,255, 0.2)",
-            borderColor: "#037DFF",
-            borderWidth: 1.5,
-            pointRadius: 0
-          }
-        ],
-        text: "23%"
-      },
-      options: {
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: false,
-                drawBorder: false
-              },
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                display: false
-              },
-              display: false
-            }
-          ]
-        },
-        legend: {
-          display: false
-        }
-      }
+  useEffect(() => {
+    subscribers()
+    return () => {
+      subscribers()
     };
-  }
+  }, []);
 
-  render() {
     return (
       <div className="line white-box">
         <div className="analysis">
@@ -57,13 +21,25 @@ class Subscribers extends Component {
         </div>
         <div className="_chart">
           <Line
-            data={this.state.chartData}
-            options={this.state.options}
+            data={chartData}
+            options={options}
           />
         </div>
       </div>
     );
+}
+
+const mapStateToProps = state => {
+  return {
+    chartData: state.subscribers.chartData,
+    options: state.subscribers.options,
   }
 }
 
-export default Subscribers;
+const mapDispatchToProps = dispatch => {
+  return {
+    subscribers: dispatch(subscribers())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Subscribers)

@@ -1,0 +1,1 @@
+export const SLIDE_LEFT_RIGHT = 'SLIDE_LEFT_RIGHT'

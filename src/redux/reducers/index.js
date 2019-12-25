@@ -1,14 +1,24 @@
 import { combineReducers } from 'redux'
-import dropDownReducer from './dropDownReducer'
-import leftSlideReducer from './leftSlideReducer'
-import commentsReducer from './commentsReducer'
+import sideBarReducer from './sideBarReducer'
+import commentReducer from './commentsReducer'
 import topReferralsReducers from './topReferralsReducer'
 import greetingReducer from './greetingReducer'
 
+import postsReducer from './blogDashboard/analysis/postsReducer'
+import pagesReducer from './blogDashboard/analysis/pagesReducer'
+import commentsReducer from './blogDashboard/analysis/commentsReducer'
+import newCustomersReducer from './blogDashboard/analysis/newCustomersReducer'
+import subscribersReducer from './blogDashboard/analysis/subscribersReducer'
+
 export default combineReducers({
-  dropDownReducer,
-  leftSlideReducer,
-  comments: commentsReducer,
+  sideBar: sideBarReducer,
+  comment: commentReducer,
   referrals: topReferralsReducers,
-  greeting: greetingReducer
+  greeting: greetingReducer,
+
+  posts: postsReducer,
+  pages: pagesReducer,
+  comments: commentsReducer,
+  newCustomers: newCustomersReducer,
+  subscribers: subscribersReducer,
 })

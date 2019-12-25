@@ -1,69 +1,45 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import { connect } from 'react-redux'
+import { comments } from '../../../redux/action-creator/blogDashboard/analysis/commentsAction'
 
-class Comments extends Component {
-  constructor(props) {
-    super(props);
+const Comments = ({ chartData, options }) => {
 
-    this.state = {
-      chartData: {
-        labels: [1, 7, 14, 21, 28],
-        datasets: [
-          {
-            label: "Current Month",
-            data: [10, 20, 80, 20, 30, 40, 20, 29, 20, 40, 20, 29, 20],
-            backgroundColor: "rgba(57,153,255, 0.2)",
-            borderColor: "#037DFF",
-            borderWidth: 1.5,
-            pointRadius: 0
-          }
-        ],
-        text: "23%"
-      },
-      options: {
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: false,
-                drawBorder: false
-              },
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                display: false
-              },
-              display: false
-            }
-          ]
-        },
-        legend: {
-          display: false
-        }
-      }
+  useEffect(() => {
+    comments()
+    return () => {
+      comments()
     };
-  }
+  }, []);
 
-  render() {
-    return (
-      <div className="line white-box">
-        <div className="analysis">
-            <span className="a_name">COMMENTS</span>
-            <h3 className="a_figures">8,147</h3>
-            <span className="a_percentage">3.8%</span>
-        </div>
-        <div className="_chart">
-          <Line
-            data={this.state.chartData}
-            options={this.state.options}
-          />
-        </div>
+  return (
+    <div className="white-box line">
+      <div className="analysis">
+        <span className="a_name">COMMENTS</span>
+        <h3 className="a_figures">2,390</h3>
+        <span className="a_percentage">4.7%</span>
       </div>
-    );
+      <div className="_chart">
+        <Line
+          data={chartData}
+          options={options}
+        />
+      </div>
+    </div>
+  );
+}
+
+const mapStateToProps = state => {
+  return {
+    chartData: state.comments.chartData,
+    options: state.comments.options,
   }
 }
 
-export default Comments;
+const mapDispatchToProps = dispatch => {
+  return {
+    comments: dispatch(comments())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comments)
